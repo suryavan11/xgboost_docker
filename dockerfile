@@ -20,8 +20,10 @@ RUN sudo apt-get install libz-dev \
 && apt-get autoclean -y \
 && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /home/analysis
+COPY predict_CA.R, predict_driver.R, predict_sentiment.R /opt/
 
-COPY myscript.R /home/analysis/myscript.R
+RUN chmod +x /opt/model_SAD_diarize_transcribe.sh
 
-CMD R -e "source('/home/analysis/myscript.R')"
+WORKDIR /opt
+
+# CMD R -e "source('/home/analysis/myscript.R')"
