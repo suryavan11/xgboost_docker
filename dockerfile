@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install libz-dev \
 && apt-get autoclean -y \
 && rm -rf /var/lib/apt/lists/*
 
-COPY predict_CA.R, predict_driver.R, predict_sentiment.R /opt/
+COPY predict_CA.R predict_driver.R predict_sentiment.R /opt/
 
 RUN chmod +x /opt/model_SAD_diarize_transcribe.sh
 
