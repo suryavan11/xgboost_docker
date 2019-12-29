@@ -3,7 +3,7 @@ FROM rocker/r-ver:3.6.1
 ## MRAN repo is already set by r-ver dockerfile to update date of  r-ver:x.x.x
 
 ## install dependencies for caret
-RUN sudo apt-get install libz-dev \
+RUN apt-get update && apt-get install libz-dev \
 && install2.r --error \
     mlapi \
     R6 \
