@@ -22,8 +22,6 @@ RUN apt-get update && apt-get install libz-dev \
 
 COPY predict_CA.R predict_driver.R predict_sentiment.R /opt/
 
-RUN chmod +x /opt/model_SAD_diarize_transcribe.sh
-
 WORKDIR /opt
 
 # CMD R -e "source('/home/analysis/myscript.R')"
