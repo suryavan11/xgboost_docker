@@ -29,6 +29,9 @@ df = read_delim( file.path(inputfilepath, filenm[[1]]),
                  delim = '|')
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
 
+## assign party 1 = Agent, 2 = Customer (just to keep continuity with some old code. this portion can be revamped later
+df = df%>%
+mutate(party = ifelse(party ==1, 'Agent', 'Customer' ))
 
 ######### prediction for every turn #########
 # pred1 = cbind(df,cust_agent.model$predict(df$phrase) )
@@ -39,7 +42,7 @@ temp =  cust_agent.model$predict.on.subset(df, sourcemediaid, phrase, party)
 
 temp1 = temp%>%select(-new.party)%>%
   melt(id = c('sourcemediaid', 'party'))%>%
-  filter(party != 'Unknown')%>%
+  # filter(party != 'Unknown')%>%
   mutate(variable = ifelse(variable == 'agent', 'Agent', 'Customer'))%>%
   arrange(sourcemediaid)%>%
   group_by(sourcemediaid)%>%
