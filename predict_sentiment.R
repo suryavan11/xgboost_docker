@@ -36,11 +36,11 @@ df = df%>%
   mutate(phrase = upscore.model$preprocess.text.fn(phrase))%>%
   group_by(sourcemediaid)%>%
   # arrange(startoffset, .by_group = TRUE)%>% ##if needed, arrange by timestamp
-  summarize(phrase = paste0(phrase, collapse = ' '))%>%
+  summarize(phrase = paste0(phrase, collapse = ' '), src_file_date = first(src_file_date))%>%
   ungroup()
 
 df = upscore.model$predict(df,sourcemediaid, phrase, calibrate = T)
 
 
-write_delim(df%>%rename(sentiment=high)%>%select(sourcemediaid, sentiment),
+write_delim(df%>%rename(sentiment=high)%>%select(sourcemediaid, sentiment, src_file_date),
             file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptmetadata') ), delim='|')
