@@ -24,7 +24,9 @@ quality.model = quality$new()
 
 filenm = list.files(inputfilepath, full.names = F)
 
-df = read_delim( file.path(inputfilepath, filenm[[1]]),
+for (i in seq_along(filenm)) {
+  
+df = read_delim( file.path(inputfilepath, filenm[[i]]),
                  # n_max = 1000,
                  delim = '|')
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
@@ -62,11 +64,13 @@ output_detail = df%>%
 
 
 write_delim(output_summary,
-            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptsummary') ), delim='|')
+            file.path(outputfilepath, str_replace_all(filenm[[i]], 'transcript', 'transcriptsummary') ), delim='|')
 
 write_delim(output_detail,
-            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptdetail') ), delim='|')
+            file.path(outputfilepath, str_replace_all(filenm[[i]], 'transcript', 'transcriptdetail') ), delim='|')
 
 rm(df)
 rm(output_detail)
 rm(output_summary)
+  
+  }
