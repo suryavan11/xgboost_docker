@@ -21,14 +21,16 @@ library(tidyverse)
 cust_agent = readRDS( file.path(modelfilepath, 'cust_agent_R6_model_v1_20191224.rds') )
 cust_agent.model = cust_agent$new()
 
-df = read_delim( file.path(modelfilepath, 'cust_agent_R6_model_v1_20191224.rds'),
-                 n_max = 1000,
+filenm = list.files(inputfilepath, full.names = F)
+
+df = read_delim( file.path(inputfilepath, filenm[[1]]),
+                 # n_max = 1000,
                  delim = '|')
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
 
 
 ######### prediction for every turn #########
-pred1 = cbind(df,cust_agent.model$predict(df$phrase) )
+# pred1 = cbind(df,cust_agent.model$predict(df$phrase) )
 
 ###########prediction on subset to generate the switch flag #####################
 
@@ -57,3 +59,5 @@ df = df%>%
       TRUE ~ 'Unknown'
     )
   )
+
+write_delim(df, file.path(outputfilepath, filenm[[1]]), delim='|')
