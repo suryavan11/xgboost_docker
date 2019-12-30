@@ -42,5 +42,5 @@ df = df%>%
 df = upscore.model$predict(df,sourcemediaid, phrase, calibrate = T)
 
 
-write_delim(df%>%rename(sentiment=high)%>%select(sourcemediaid, sentiment, src_file_date),
+write_delim(df%>%rename(sentiment=high)%>%mutate(sentiment=round(sentiment,3))%>%select(sourcemediaid, sentiment, src_file_date),
             file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptmetadata') ), delim='|')
