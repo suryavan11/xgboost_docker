@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install libz-dev \
     mlapi \
     R6 \
     xgboost \
+    cld2 \
     tokenizers \
     text2vec \
     caret \
