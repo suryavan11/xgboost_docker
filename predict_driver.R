@@ -18,7 +18,7 @@ library(readr)
 library(stringr)
 library(dplyr)
 
-quality = readRDS( file.path(modelfilepath, ' quality_R6_model_v5_20191229.rds') )
+quality = readRDS( file.path(modelfilepath, 'quality_R6_model_v5_20191229.rds') )
 quality.model = quality$new()
 
 filenm = list.files(inputfilepath, full.names = F)
