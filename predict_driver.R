@@ -49,7 +49,8 @@ df$src_file_date = src_file_dates
 output_detail = df%>%
     select(-ypred,-phrase,-txt.length,-language.col, -src_file_date)%>%
     melt()%>%
-    rename(L2Intent = variable, L2Prob = round(value,4) )%>%
+    mutate(value = round(value,4))%>%
+    rename(L2Intent = variable, L2Prob = value )%>%
     arrange(sourcemediaid)
 
   output_summary = df%>%
