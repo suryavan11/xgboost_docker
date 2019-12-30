@@ -59,10 +59,10 @@ output_detail = df%>%
 
 
 
-write_delim(output_detail,
+write_delim(output_summary,
             file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptsummary') ), delim='|')
 
-write_delim(output_summary,
+write_delim(output_detail,
             file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptdetail') ), delim='|')
 
 rm(df)
