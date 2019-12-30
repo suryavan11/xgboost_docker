@@ -24,7 +24,9 @@ upscore.model = upscore$new()
 
 filenm = list.files(inputfilepath, full.names = F)
 
-df = read_delim( file.path(inputfilepath, filenm[[1]]),
+for (i in seq_along(filenm)) {
+  
+df = read_delim( file.path(inputfilepath, filenm[[i]]),
                  # n_max = 1000,
                  delim = '|')
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
@@ -42,4 +44,7 @@ df = df%>%
 df = upscore.model$predict(df,sourcemediaid, phrase, calibrate = T)
 
 write_delim(df%>%rename(sentiment=high)%>%mutate(sentiment=round(sentiment,3))%>%select(sourcemediaid, sentiment, src_file_date),
-            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptsentiment') ), delim='|')
+            file.path(outputfilepath, str_replace_all(filenm[[i]], 'transcript', 'transcriptsentiment') ), delim='|')
+  
+  rm(df)
+  }
