@@ -11,11 +11,12 @@ modelfilepath='/opt/aspire/models'
 
 library(mlapi)
 library(R6)
-library(reshape2)
 library(tokenizers)
 library(text2vec)
 library(caret)
-library(tidyverse)
+library(readr)
+library(stringr)
+library(dplyr)
 
 
 cust_agent = readRDS( file.path(modelfilepath, 'cust_agent_R6_model_v1_20191224.rds') )
