@@ -32,7 +32,7 @@ colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
 df = df%>%
   mutate(sourcemediaid = as.character(sourcemediaid))%>%
   ## mutate(startoffset = as.numeric(lubridate::hms(startoffset))  )%>% ## if needed, convert timestamp
-  mutate(phrase = upscore.model$preprocess.text.fn(phrase))%>%
+  mutate(phrase = quality.model$preprocess.text.fn(phrase))%>%
   group_by(sourcemediaid)%>%
   # arrange(startoffset, .by_group = TRUE)%>% ##if needed, arrange by timestamp
   summarize(phrase = paste0(phrase, collapse = ' '), src_file_date = first(src_file_date))%>%
