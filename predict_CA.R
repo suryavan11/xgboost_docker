@@ -25,7 +25,8 @@ cust_agent.model = cust_agent$new()
 
 filenm = list.files(inputfilepath, full.names = F)
 
-df = read_delim( file.path(inputfilepath, filenm[[1]]),
+for (i in seq_along(filenm)) {
+df = read_delim( file.path(inputfilepath, filenm[[i]]),
                  # n_max = 1000,
                  delim = '|')
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
@@ -41,7 +42,7 @@ mutate(party = ifelse(party ==1, 'Agent', 'Customer' ))
 
 temp =  cust_agent.model$predict.on.subset(df, sourcemediaid, phrase, party)
 
-temp1 = temp%>%select(-new.party)%>%
+temp = temp%>%select(-new.party)%>%
   melt(id = c('sourcemediaid', 'party'))%>%
   # filter(party != 'Unknown')%>%
   mutate(variable = ifelse(variable == 'agent', 'Agent', 'Customer'))%>%
@@ -54,7 +55,7 @@ temp1 = temp%>%select(-new.party)%>%
 
 
 df = df%>%
-  left_join(temp1%>%select(sourcemediaid, switch), by = 'sourcemediaid')%>%
+  left_join(temp%>%select(sourcemediaid, switch), by = 'sourcemediaid')%>%
   mutate(
     predicted.party = case_when(
       party == 'Agent' & switch == TRUE ~ 'Customer',
@@ -65,4 +66,9 @@ df = df%>%
     )
   )
 
-write_delim(df, file.path(outputfilepath, filenm[[1]]), delim='|')
+write_delim(df, file.path(outputfilepath, filenm[[i]]), delim='|')
+  
+  rm(df)
+  rm(temp)
+  
+  }
