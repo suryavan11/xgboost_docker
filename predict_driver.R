@@ -11,6 +11,7 @@ modelfilepath='/opt/aspire/models'
 
 library(mlapi)
 library(R6)
+library(reshape2)
 library(tokenizers)
 library(text2vec)
 library(caret)
