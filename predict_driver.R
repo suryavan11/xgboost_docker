@@ -29,6 +29,7 @@ df = read_delim( file.path(inputfilepath, filenm[[1]]),
 colnames(df) = tolower(str_remove_all(colnames(df),'^.*\\.'))
 
 
+
 df = df%>%
   mutate(sourcemediaid = as.character(sourcemediaid))%>%
   ## mutate(startoffset = as.numeric(lubridate::hms(startoffset))  )%>% ## if needed, convert timestamp
@@ -38,7 +39,32 @@ df = df%>%
   summarize(phrase = paste0(phrase, collapse = ' '), src_file_date = first(src_file_date))%>%
   ungroup()
 
+src_file_dates = df$src_file_date
+
 df = quality.model$predict(df,sourcemediaid, phrase, txt.length, language.col)
 
-write_delim(df,
-            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptintent') ), delim='|')
+df$src_file_date = src_file_dates
+
+output_detail = df%>%
+    select(-ypred,-phrase,-txt.length,-language.col, -src_file_date)%>%
+    melt()%>%
+    rename(L2Intent = variable, L2Prob = round(value,4) )%>%
+    arrange(sourcemediaid)
+
+  output_summary = df%>%
+    rename(L2Intent = ypred, text_length = txt.length, text_language = language.col )%>%
+    mutate(prediction_date = lubridate::today())%>%
+    select(sourcemediaid, L2Intent,text_language, text_length,
+           src_file_date, prediction_date )
+
+
+
+write_delim(output_detail,
+            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptsummary') ), delim='|')
+
+write_delim(output_summary,
+            file.path(outputfilepath, str_replace_all(filenm[[1]], 'transcript', 'transcriptdetail') ), delim='|')
+
+rm(df)
+rm(output_detail)
+rm(output_summary)
