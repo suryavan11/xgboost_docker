@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y libz-dev \
 && apt-get autoclean -y \
 && rm -rf /var/lib/apt/lists/*
 
-COPY predict_CA.R predict_driver.R predict_sentiment.R /opt/
+COPY predict_CA.R predict_driver.R predict_sentiment.R predict.R /opt/
 
 WORKDIR /opt
 
-# CMD R -e "source('/home/analysis/myscript.R')"
+# CMD R -e "source('predict.R')"
