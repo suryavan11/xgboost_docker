@@ -1,1 +1,6 @@
-
+source('/opt/predict_CA.R')
+rm(list=ls())
+source('/opt/predict_driver.R')
+rm(list=ls())
+source('/opt/predict_sentiment.R')
+rm(list=ls())
