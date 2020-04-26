@@ -57,14 +57,15 @@ temp = temp%>%select(-new.party)%>%
 df = df%>%
   left_join(temp%>%select(sourcemediaid, switch), by = 'sourcemediaid')%>%
   mutate(
-    predicted.party = case_when(
+    party = case_when(
       party == 'Agent' & switch == TRUE ~ 'Customer',
       party == 'Agent' & switch == FALSE ~ 'Agent',
       party == 'Customer' & switch == TRUE ~ 'Agent',
       party == 'Customer' & switch == FALSE ~ 'Customer',
       TRUE ~ 'Unknown'
     )
-  )
+  )%>%
+  select(-switch)
 
 write_delim(df, file.path(outputfilepath, filenm[[i]]), delim='|')
   
