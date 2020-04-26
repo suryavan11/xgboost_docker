@@ -5,9 +5,9 @@
 # outputfilepath = myarg[2]
 # modelfilepath = myarg[3]
 
-inputfilepath='/opt/aspire/transcripts'
-outputfilepath='/opt/aspire/transcripts1'
-modelfilepath='/opt/aspire/models'
+inputfilepath='/opt/aspire/transcript1'
+outputfilepath='/opt/aspire/transcript2'
+modelfilepath='/opt/aspire/model'
 
 
 library(mlapi)
